@@ -6,7 +6,6 @@ import Player from "../application/Player/index";
 
 function Home(props) {
   const { route } = props;
-
   return (
     <div>
       <Top>

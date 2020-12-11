@@ -5,6 +5,7 @@ import * as actionTypes from './store/actionCreators';
 import RecommendList from '../../components/list/';
 import Scroll from '../../baseUI/scroll/index';
 import { Content } from './style';
+// 延时加载 forceCheck 强制检查，作用暂不清楚
 import { forceCheck } from 'react-lazyload';
 import { renderRoutes } from 'react-router-config';
 import { EnterLoading } from './../Singers/style';
@@ -14,7 +15,6 @@ function Recommend(props){
   const { bannerList, recommendList, songsCount, enterLoading } = props;
 
   const { getBannerDataDispatch, getRecommendListDataDispatch } = props;
-
   useEffect(() => {
     if(!bannerList.size){
       getBannerDataDispatch();
@@ -24,7 +24,7 @@ function Recommend(props){
     }
     // eslint-disable-next-line
   }, []);
-
+  console.log('bannerList', bannerList.toJS(), bannerList);
   const bannerListJS = bannerList ? bannerList.toJS() : [];
   const recommendListJS = recommendList ? recommendList.toJS() :[];
 
@@ -32,7 +32,9 @@ function Recommend(props){
     <Content play={songsCount}>
       <Scroll className="list" onScroll={forceCheck}>
         <div>
+          {/* tab切换 */}
           <Slider bannerList={bannerListJS}></Slider>
+          {/* 推荐歌单列表 */}
           <RecommendList recommendList={recommendListJS}></RecommendList>
         </div>
       </Scroll>

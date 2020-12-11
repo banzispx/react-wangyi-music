@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { Redirect } from "react-router-dom";
 import HomeLayout from "../layouts/HomeLayout";
 import BlankLayout from "../layouts/BlankLayout";
-
+// () => () => ... 等价于  () => {return () => {return ...}}
 const SuspenseComponent = Component => props => {
   return (
     <Suspense fallback={null}>
@@ -10,6 +10,7 @@ const SuspenseComponent = Component => props => {
     </Suspense>
   )
 }
+// https://zh-hans.reactjs.org/docs/concurrent-mode-suspense.html#gatsby-focus-wrapper
 // lazy() 实现组件的异步加载 lazy需要和Suspense配合使用
 const RecommendComponent = lazy(() => import("../application/Recommend/"));
 const SingersComponent = lazy(() => import("../application/Singers/"));

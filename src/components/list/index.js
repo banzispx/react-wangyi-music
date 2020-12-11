@@ -4,6 +4,7 @@ import {
   ListItem,
   List
 } from './style';
+// 图片懒加载
 import LazyLoad from "react-lazyload";
 import { withRouter } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ function RecommendList(props) {
               <ListItem key={item.id} onClick={() => enterDetail(item.id)}>
                 <div className="img_wrapper">
                   <div className="decorate"></div>
+                  {/* https://www.npmjs.com/package/react-lazyload LazyLoad的链接， placeholder主要作为懒加载时候的占位符*/}
                   <LazyLoad placeholder={<img width="100%" height="100%" src={require('./music.png')} alt="music"/>}>
                     <img src={item.picUrl + "?param=300x300"} width="100%" height="100%" alt="music"/>
                   </LazyLoad>
