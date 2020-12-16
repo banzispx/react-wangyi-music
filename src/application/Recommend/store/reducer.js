@@ -1,6 +1,7 @@
 import * as actionTypes from './constants';
 import { fromJS } from 'immutable';
-
+// https://redux.js.org/recipes/using-immutablejs-with-redux 
+// 在redux中使用immutablejs
 const defaultState = fromJS({
   bannerList: [],
   recommendList: [],

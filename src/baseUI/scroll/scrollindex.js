@@ -79,14 +79,14 @@ export const PullDownLoading = styled.div`
   margin: auto;
   z-index: 100;
 `
-
+// useImperativeHandle 可以让你在使用 ref 时自定义暴露给父组件的实例值。
+// 在大多数情况下，应当避免使用 ref 这样的命令式代码。useImperativeHandle 应当与 forwardRef 一起使用：
 const Scroll = forwardRef((props, ref) => {
   const [bScroll, setBScroll] = useState();
 
   const scrollContaninerRef = useRef();
-
   const { pullUp, pullDown, onScroll, direction, click, refresh, pullUpLoading, pullDownLoading, bounceTop, bounceBottom } = props;
-  // 上拉加载  只有渲染或依赖项改变的时候执行
+  // 上拉加载 pullUpDebounce 只有渲染或依赖项改变的时候才执行
   let pullUpDebounce = useMemo(() => {
     return debounce(pullUp, 500)
   }, [pullUp]);
@@ -94,25 +94,30 @@ const Scroll = forwardRef((props, ref) => {
   let pullDownDebounce = useMemo(() => {
     return debounce(pullDown, 500)
   }, [pullDown]);
-
+  // 组件挂载时初始化滚动对象 并且在卸载时删除此对象
   useEffect(() => {
+    // https://better-scroll.github.io/docs/zh-CN/guide/base-scroll-options.html#scrollx scroll配置项详情
     const scroll = new BScroll(scrollContaninerRef.current, {
       scrollX: direction === "horizental",
       scrollY: direction === "vertical",
+      // probeType 3 代表从滚动开始 -》动画 -》结束都会触发滚动事件
       probeType: 3,
+      // BetterScroll 默认会阻止浏览器的原生 click 事件。当设置为 true，BetterScroll 会派发一个 click 事件，我们会给派发的 event 参数加一个私有属性 _constructed，值为 true
       click: click,
+      // 上拉 下拉的动画
       bounce:{
         top: bounceTop,
         bottom: bounceBottom
       }
     });
+    // 这里会再次的render此滚动组件
     setBScroll(scroll);
     return () => {
       setBScroll(null);
     }
     // eslint-disable-next-line
   }, []);
-
+  // 监听滚动对象 当滚动时触发滚动事件
   useEffect(() => {
     if(!bScroll || !onScroll) return;
     bScroll.on('scroll', onScroll)
@@ -120,7 +125,7 @@ const Scroll = forwardRef((props, ref) => {
       bScroll.off('scroll', onScroll);
     }
   }, [onScroll, bScroll]);
-
+  // 上拉的effeck 在滚动结束的时候判断当前位置与bScroll的最大滚动高度的差距
   useEffect(() => {
     if(!bScroll || !pullUp) return;
     const handlePullUp = () => {
@@ -133,29 +138,31 @@ const Scroll = forwardRef((props, ref) => {
     return () => {
       bScroll.off('scrollEnd', handlePullUp);
     }
-  }, [pullUp, pullUpDebounce, bScroll]);
-
+  }, [pullUp, bScroll, pullUpDebounce]);
+  // 下拉的事件
   useEffect(() => {
     if(!bScroll || !pullDown) return;
     const handlePullDown = (pos) => {
+      // pos 当前事件结束后的位置坐标
       //判断用户的下拉动作
       if(pos.y > 50) {
         pullDownDebounce();
       }
     };
+    // touchEnd 触发时机 用户手指离开滚动区域
     bScroll.on('touchEnd', handlePullDown);
     return () => {
       bScroll.off('touchEnd', handlePullDown);
     }
   }, [pullDown, pullDownDebounce, bScroll]);
-
-
+  // 挂载 更新 都会执行这句话
   useEffect(() => {
     if(refresh && bScroll){
+      // 作用：重新计算 BetterScroll，当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
       bScroll.refresh();
     }
   });
-
+  // 使父组件可以获取子组件的事件
   useImperativeHandle(ref, () => ({
     refresh() {
       if(bScroll) {
