@@ -4,7 +4,7 @@ import SongsList from '../../application/SongList/';
 
 function AlbumDetail(props) {
   const { currentAlbum, pullUpLoading } = props;
-
+  // 专辑详情
   const renderTopDesc = () => {
     return (
       <TopDesc background={currentAlbum.coverImgUrl}>
@@ -31,7 +31,7 @@ function AlbumDetail(props) {
       </TopDesc>
     )
   };
-
+  // 专辑列表
   const renderMenu = () => {
     return (
       <Menu>
@@ -54,6 +54,7 @@ function AlbumDetail(props) {
       </Menu>
     )
   };
+  // 歌曲列表
   const renderSongList = () => {
     return (
       <SongsList
@@ -62,7 +63,7 @@ function AlbumDetail(props) {
         showCollect={true}
         loading={pullUpLoading}
         musicAnimation={props.musicAnimation}
-        showBackground={true}
+        showBackground={true} // 是否显示歌曲列表的背景
       ></SongsList>
     )
   };

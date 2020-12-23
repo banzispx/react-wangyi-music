@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import style from '../../assets/global-style';
+// 下面样式代码的 & 代表的返回到主组件 
+// 在样式中加入选择器代表其子组件
 
+// 在组件出现、进入、退出或完成转换时应用到它的动画 classNames。可以提供单个名称，每个阶段后缀，例如 classNames = “ fade”应用:
+// fade - appear, fade - appear - active, fade - appear - done
+// fade - enter, fade - enter - active, fade - enter - done
+// fade - exit, fade - exit - active, fade - exit - done
 export const Container = styled.div`
   position: fixed;
   top: 0;
@@ -27,6 +33,8 @@ export const Container = styled.div`
     transform: rotateZ(30deg) translate3d(100%, 0, 0);
   }
 `
+  // .rotateZ(z)定义： 绕Y轴方向旋转，顺时针旋转角度为angle
+// rotate3d(x, y, z, angle)定义：同时绕X, Y, Z轴三个方向旋转，顺时针旋转角度为angle
 export const TopDesc = styled.div`
   background-size: 100%;
   padding: 5px 20px;

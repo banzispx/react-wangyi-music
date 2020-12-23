@@ -22,8 +22,9 @@ const SongsList = React.forwardRef((props, refs)=> {
       return;
     setStartIndex(startIndex + ONE_PAGE_COUNT);
   }, [loading, startIndex, totalCount]);
-
+  // 处理歌曲点击播放事件 和 播放全部
   const selectItem = (e, index) => {
+    // 设置播放列表
     changePlayListDispatch(songs);
     changeSequecePlayListDispatch(songs);
     changeCurrentIndexDispatch(index);
@@ -70,8 +71,10 @@ const SongsList = React.forwardRef((props, refs)=> {
           <i className="iconfont">&#xe6e3;</i>
           <span>播放全部 <span className="sum">(共{totalCount}首)</span></span>
         </div>
+        {/* 收藏 */}
         { showCollect ? collect(collectCount) : null}
       </div>
+      {/* 歌曲列表 */}
       <SongItem>
         { songList(songs) }
       </SongItem>

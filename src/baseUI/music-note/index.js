@@ -57,8 +57,10 @@ const MusicNote = forwardRef((props, ref) => {
 
   
   const startAnimation = ({x, y}) => {
+    console.log('startAnimation');
     for(let i = 0; i < ICON_NUMBER; i++) {
       let domArray = [].slice.call(iconsRef.current.children)
+      console.log('domArray', domArray, iconsRef.current.children);
       let item = domArray[i]
       // 选择一个空闲的元素来开始动画
       if (item.running === false) {

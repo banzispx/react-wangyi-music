@@ -17,6 +17,7 @@ function Album(props) {
 
   const [showStatus, setShowStatus] = useState(true);
   const [title, setTitle] = useState("歌单");
+  // 设置歌单是否滚动显示
   const [isMarquee, setIsMarquee] = useState(false);
 
   const musicNoteRef = useRef();
@@ -28,7 +29,6 @@ function Album(props) {
   const { getAlbumDataDispatch, changePullUpLoadingStateDispatch } = props;
   
   let currentAlbumJS = currentAlbum.toJS();
-
   useEffect(() => {
     getAlbumDataDispatch(id);
   }, [getAlbumDataDispatch, id]);
@@ -61,18 +61,20 @@ function Album(props) {
   }, []);
 
   const musicAnimation = (x , y) => {
-    musicNoteRef.current.startAnimation({x, y});
+    // 父元素调用子元素的方法
+    // musicNoteRef.current.startAnimation({x, y});
   }
-
+  // https://blog.csdn.net/scorpio_h/article/details/85205579 此链接为下面CSSTransition的配置项解释
   return (
       <CSSTransition 
         in={showStatus}  
         timeout={300} 
-        classNames="fly" 
+        classNames="fly"
         appear={true} 
         unmountOnExit
         onExited={props.history.goBack}
       >
+      {/* onExited回调事件 A <Transition> callback fired immediately after the 'exit' classes are removed and the exit-done class is added to the DOM node.在删除“ exit”类并将 exit-done 类添加到 DOM 节点后，立即启动一个 < transition > 回调。 */}
         <Container play={songsCount}>
           <Header ref={headerEl} title={title} handleClick={handleBack} isMarquee={isMarquee}></Header>
           {
@@ -83,11 +85,14 @@ function Album(props) {
                 pullUpLoading={pullUpLoading}
                 bounceTop={false}
               >
+              {/* currentAlbumJS 当前专辑的详细数据  */}
                 <AlbumDetail currentAlbum={currentAlbumJS} pullUpLoading={pullUpLoading} musicAnimation={musicAnimation}></AlbumDetail>
               </Scroll>
             ) : null
           }
+          {/* 加载组件 */}
           { enterLoading ?  <EnterLoading><Loading></Loading></EnterLoading> : null}
+          {/* 点击 */}
           <MusicNote ref={musicNoteRef}></MusicNote>
         </Container>
       </CSSTransition>

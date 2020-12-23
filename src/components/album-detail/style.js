@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import style from '../../assets/global-style';
-
+// filter: blur(20px); 图片的滤镜
 export const TopDesc = styled.div`
   background-size: 100%;
   padding: 5px 20px;
