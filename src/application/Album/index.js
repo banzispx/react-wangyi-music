@@ -62,7 +62,7 @@ function Album(props) {
 
   const musicAnimation = (x , y) => {
     // 父元素调用子元素的方法
-    // musicNoteRef.current.startAnimation({x, y});
+    musicNoteRef.current.startAnimation({x, y});
   }
   // https://blog.csdn.net/scorpio_h/article/details/85205579 此链接为下面CSSTransition的配置项解释
   return (

@@ -77,7 +77,7 @@ const MusicNote = forwardRef((props, ref) => {
       }
     }
   };
-
+  // https://react.docschina.org/docs/hooks-reference.html#useimperativehandle 通过这个hook，暴露父组件，子组件的方法
   useImperativeHandle(ref, () => ({
     startAnimation
   }));

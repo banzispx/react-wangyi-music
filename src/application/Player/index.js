@@ -236,6 +236,7 @@ function Player(props) {
   return (
     <div>
       {isEmptyObject(currentSong) ? null : (
+        // 展开的播放器
         <NormalPlayer
           song={currentSong}
           full={fullScreen}
@@ -260,6 +261,7 @@ function Player(props) {
         ></NormalPlayer>
       )}
       {isEmptyObject(currentSong) ? null : (
+        // 下面是底部的播放组件
         <MiniPlayer
           playing={playing}
           full={fullScreen}
@@ -270,8 +272,9 @@ function Player(props) {
           togglePlayList={togglePlayListDispatch}
         ></MiniPlayer>
       )}
-
+      {/* MiniPlayer点击后展示的歌曲列表 */}
       <PlayList clearPreSong={setPreSong.bind(null, {})}></PlayList>
+      {/* html5播放插件 */}
       <audio
         ref={audioRef}
         onTimeUpdate={updateTime}
